@@ -1,0 +1,25 @@
+version: '3'
+services:
+  authentication:
+    build: ./authentication-service
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./authentication:/app
+
+  course:
+    build: ./course-service
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./course:/app
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - '80:80'
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - authentication
+      - course
