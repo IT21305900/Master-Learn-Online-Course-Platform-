@@ -1,84 +1,66 @@
+import CourseService from "../service/course.service";
 
+const courseService = new CourseService();
+
+const fetchCourse = async (req, res, next) => {
+  try {
+    const { cid } = req.params;
+
+    const course = await courseService.getCourse(cid);
+
+    return res.status(200).json({ course });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const fetchCourses = async (req, res, next) => {
+  try {
+    const { limit } = req.query;
+
+    const courses = await courseService.getCourses();
+
+    return res.status(200).json({ courses });
+  } catch (error) {
+    next(error);
+  }
+};
 
 const createCourse = async (req, res, next) => {
-    try {
+  try {
+    const { title, description, price } = req.body;
 
-        const { title, description, price } = req.body
+    const course = await courseService.createCourse(title, description, price);
 
-    } catch (error) {
-        next(error)
-    }
-}
+    return res.status(200).json({ course });
+  } catch (error) {
+    next(error);
+  }
+};
 
-// import AuthService from "../service/auth.service.js"
+const updateCourse = async (req, res, next) => {
+  try {
+    const { cid } = req.params;
+    const { course } = req.body;
 
+    await courseService.updateCourse(cid, course);
 
-// const authService = new AuthService();
+    return res.status(200).json({ message: "Course updated successfully" });
+  } catch (error) {
+    next(error);
+  }
+};
 
-// const signIn = async (req, res, next) => {
+const deleteCourse = async (req, res, next) => {
+  try {
+    const { cid } = req.params;
 
-//     try {
-//         const { uid, password } = req.body
+    const course = await courseService.deleteCourse(cid);
 
-//         const token = authService.validateUser(uid, password)
+    return course;
+  } catch (error) {
+    next(error);
+  }
+};
 
-//         if (token) {
-//             res.status(401).json({ message: "Invalid / Username Password" })
-//         }
-
-//         res
-//             .status(200)
-//             .cookie("token", token, {
-//                 httpOnly: true,
-//                 sameSite: "lax",
-//             })
-//             .json({ message: "User signed in successfully." });
-
-//     } catch (error) {
-//         next(error)
-//     }
-// }
-
-// const signUp = async (req, res, next) => {
-//     try {
-//         const { username, email, password } = req.body;
-
-//         if (authService.getUser(username) || authService.getUser(email)) {
-//             return res
-//                 .status(409)
-//                 .json({ message: "Credentials Invalid" });
-//         }
-
-
-//         const user = authService.createUser(username, email, password);
-
-//         // Generate token
-//         const token = await authService.generateUserToken(user);
-
-//         // Send response
-//         res.status(200)
-//             .cookie("token", token, {
-//                 httpOnly: true,
-//                 sameSite: "lax",
-//             })
-//             .json({ message: "User created successfully", user });
-
-//     } catch (error) {
-//         next(error)
-//     }
-// }
-
-// const signOut = async (req, res, next) => {
-//     try {
-//         // Clear the cookie
-//         res.clearCookie("token");
-
-//         // Send response
-//         res.status(200).json({ message: "User signed out successfully." });
-//     } catch (error) {
-//         next(error);
-//     }
-// }
-
-
-// export { signIn, signUp, signOut }
+export { fetchCourse, fetchCourses, createCourse, updateCourse, deleteCourse };
