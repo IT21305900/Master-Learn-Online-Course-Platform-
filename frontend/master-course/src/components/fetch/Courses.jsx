@@ -1,8 +1,8 @@
 import React from "react";
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import CourseCard from "../cards/CourseCard";
-import Loader from "./Loader";
+import Loader from "../common/Loader";
 import { fetchCourse, fetchCourses } from "../../api/course.api.mjs";
 
 const Courses = () => {
@@ -22,7 +22,17 @@ const Courses = () => {
   //   const courses = data?.map((course) => <CourseCard course={course} />);
 
   return (
-    <Box>
+    <Box
+      sx={{
+        display: "grid",
+        p: { xs: 2, md: 4 },
+        gridTemplateColumns: {
+          md: "repeat(2,1fr)",
+          lg: "repeat(3,1fr)",
+        },
+        gap: 2,
+      }}
+    >
       {data?.map((course) => (
         <CourseCard course={course} />
       ))}

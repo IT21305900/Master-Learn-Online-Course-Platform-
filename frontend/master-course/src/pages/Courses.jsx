@@ -1,13 +1,13 @@
 import React from "react";
 import { Box } from "@mui/material";
 import Nav from "../components/common/Nav";
-import CourseList from "../components/common/Courses";
+import FetchCourse from "../components/fetch/Courses";
 
 const Courses = () => {
   return (
     <Box>
       <Nav />
-      <CourseList />
+      <FetchCourse />
     </Box>
   );
 };

@@ -1,8 +1,8 @@
 import React from "react";
 import { Box, Button } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
-import CourseForm from "../forms/CourseForm";
-import Courses from "../common/Courses";
+
+import FetchCourse from "../fetch/Courses";
 import CreateCourse from "./CreateCourse";
 import ManageLessons from "./ManageLessons";
 
@@ -27,7 +27,7 @@ const Course = () => {
       <Box>
         {action === "create" && <CreateCourse />}
         {action === "lesson" && <ManageLessons />}
-        {action === undefined && <Courses type="dashboard" />}
+        {action === undefined && <FetchCourse type="dashboard" />}
       </Box>
     </Box>
   );

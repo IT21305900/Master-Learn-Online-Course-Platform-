@@ -5,7 +5,8 @@ import errorHandler from "./middleware/errorhandler.js";
 import authentication from "./route/auth.router.js";
 import cors from "cors";
 import morgan from "morgan";
-import { getUser, setupKinde } from "@kinde-oss/kinde-node-express";
+import("@kinde-oss/kinde-node-express");
+
 //express
 const app = express();
 
@@ -15,8 +16,6 @@ const config = {
   redirectUri: "",
   logoutUri: "",
 };
-
-setupKinde(config, app);
 
 //middlewares
 app.use(
