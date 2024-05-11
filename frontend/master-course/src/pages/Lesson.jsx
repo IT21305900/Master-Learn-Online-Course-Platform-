@@ -41,14 +41,12 @@ function ResponsiveDrawer(props) {
     onError: () => {},
   });
 
-
   if (isLoading) {
     return <Loader />;
   }
 
   const handleNavigate = (lesson) => {
-    navigate(`/course/${cid}/lesson/${lid}`);
-    
+    navigate(`/course/${cid}/lesson/${lesson}`);
   };
 
   const handleDrawerClose = () => {
@@ -154,10 +152,11 @@ function ResponsiveDrawer(props) {
         }}
       >
         <Toolbar />
-        <Box>
+        <Box sx={{minHeight: "90vh"}}>
           <Typography variant="h2">{data.title}</Typography>
           <Box dangerouslySetInnerHTML={{ __html: data.content }} />
         </Box>
+        <Divider />
       </Box>
     </Box>
   );
