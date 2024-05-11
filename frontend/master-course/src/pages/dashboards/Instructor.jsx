@@ -144,7 +144,10 @@ const Instructor = () => {
           ))}
         </List>
       </Drawer>
-      <Main open={open}>{id === "overview" && <Overview />}</Main>
+      <Main sx={{ pt: 12 }} open={open}>
+        {id === "overview" && <Overview />}
+        {id === "course" && <Course />}
+      </Main>
     </Box>
   );
 };

@@ -1,4 +1,4 @@
-import Course from "../model/course.model";
+import Course from "../model/course.model.js";
 
 class CourseService {
   constructor() {}
@@ -14,12 +14,22 @@ class CourseService {
     }
   }
 
+  async getCoursesByInstructor(instructor) {
+    try {
+      const courses = await Course.findOne({ instructor: instructor });
+
+      return courses;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   //get the courses
   async getCourses(limit) {
     try {
-      const course = await Course.find({ key: cid });
+      const courses = await Course.find();
 
-      return course;
+      return courses;
     } catch (error) {
       throw error;
     }

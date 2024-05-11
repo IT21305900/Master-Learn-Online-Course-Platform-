@@ -1,4 +1,4 @@
-import CourseService from "../service/course.service";
+import CourseService from "../service/course.service.js";
 
 const courseService = new CourseService();
 
@@ -8,7 +8,22 @@ const fetchCourse = async (req, res, next) => {
 
     const course = await courseService.getCourse(cid);
 
-    return res.status(200).json({ course });
+    console.log(course);
+
+    return res.status(200).json(course);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+const fetchCourseByInstructor = async (req, res, next) => {
+  try {
+    const { instructor } = req.params;
+
+    const courses = await courseService.getCoursesByInstructor(instructor);
+
+    return res.status(200).json({ courses });
   } catch (error) {
     next(error);
   }
@@ -19,8 +34,9 @@ const fetchCourses = async (req, res, next) => {
     const { limit } = req.query;
 
     const courses = await courseService.getCourses();
+    console.log(courses);
 
-    return res.status(200).json({ courses });
+    return res.status(200).json(courses);
   } catch (error) {
     next(error);
   }
@@ -30,10 +46,17 @@ const createCourse = async (req, res, next) => {
   try {
     const { title, description, price } = req.body;
 
-    const course = await courseService.createCourse(title, description, price);
+    console.log(title, description, price);
+
+    const course = await courseService.createCourse(
+      title,
+      description,
+      Number(price)
+    );
 
     return res.status(200).json({ course });
   } catch (error) {
+    console.log(error);
     next(error);
   }
 };

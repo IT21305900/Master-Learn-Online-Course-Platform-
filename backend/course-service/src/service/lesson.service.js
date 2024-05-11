@@ -1,5 +1,5 @@
-import Course from "../model/course.model";
-import Lesson from "../model/lesson.model";
+import Course from "../model/course.model.js";
+import Lesson from "../model/lesson.model.js";
 
 class LessonService {
   constructor() {}

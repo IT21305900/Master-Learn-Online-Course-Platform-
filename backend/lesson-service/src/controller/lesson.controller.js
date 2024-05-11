@@ -1,4 +1,4 @@
-import LessonService from "../service/lesson.service";
+import LessonService from "../service/lesson.service.js";
 
 const lessonService = new LessonService();
 
@@ -8,8 +8,9 @@ const fetchLesson = async (req, res, next) => {
 
     const lesson = await lessonService.getLesson(lid);
 
-    return res.status(200).json({ lesson: lesson });
+    return res.status(200).json(lesson);
   } catch (error) {
+    console.loog(error);
     next(error);
   }
 };
@@ -30,6 +31,7 @@ const createLesson = async (req, res, next) => {
 
     return res.status(200).json({ message: "lesson created successfully" });
   } catch (error) {
+    console.log(error);
     next(error);
   }
 };
