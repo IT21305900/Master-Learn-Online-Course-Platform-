@@ -48,6 +48,7 @@ const CourseHero = () => {
             my: "auto",
             alignItems: { xs: "left", md: "center" },
             height: "100%",
+            color: "rgba(255, 255, 255, 0.87)"
           }}
         >
           <Typography variant="h1">{data?.title}</Typography>

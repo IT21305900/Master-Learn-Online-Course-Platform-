@@ -10,7 +10,7 @@ const fetchLesson = async (req, res, next) => {
 
     return res.status(200).json(lesson);
   } catch (error) {
-    console.loog(error);
+    console.log(error);
     next(error);
   }
 };
