@@ -1,13 +1,20 @@
 import AuthService from "../service/auth.service.js";
 
-
 const authService = new AuthService();
 
 const signIn = async (req, res, next) => {
   try {
     const { user } = req.body;
 
-    const secret = "";
+    let existUser = await authService.getUser(user.id);
+
+    if (!existUser) {
+      console.log("called");
+      existUser = await authService.createUser(user.id, user.email);
+    }
+
+    // Generate token
+    const token = await authService.generateUserToken(existUser);
 
     res
       .status(200)
@@ -15,8 +22,9 @@ const signIn = async (req, res, next) => {
         httpOnly: true,
         sameSite: "lax",
       })
-      .json({ message: "User signed in successfully." });
+      .json({ message: "User signed successfully" });
   } catch (error) {
+    console.log(error);
     next(error);
   }
 };

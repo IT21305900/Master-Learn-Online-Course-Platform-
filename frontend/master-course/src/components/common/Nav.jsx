@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
-
 import {
   Box,
   AppBar,
@@ -20,6 +19,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { signIn, signOut } from "../../api/auth.api.mjs";
+import User from "./User";
 
 export default function Nav() {
   const [state, setState] = React.useState({
@@ -31,34 +31,6 @@ export default function Nav() {
 
   const { login, register, isAuthenticated, user, logout, getToken } =
     useKindeAuth();
-
-  const SignMutation = useMutation({
-    mutationFn: signIn,
-    onSuccess: () => {},
-    onError: () => {},
-  });
-
-  const SignOutMutation = useMutation({
-    mutationFn: signOut,
-    onSuccess: () => {},
-    onError: () => {},
-  });
-
-  useEffect(() => {
-    const fetchTokenAndAuthenticate = async () => {
-      const accessToken = await getToken();
-
-      console.log(accessToken);
-
-      if (isAuthenticated) {
-        await SignMutation.mutateAsync(accessToken);
-      } else if (!isAuthenticated) {
-        await SignOutMutation.mutateAsync();
-      }
-    };
-
-    fetchTokenAndAuthenticate();
-  }, [isAuthenticated]);
 
   const { mobileView, drawerOpen } = state;
 
@@ -107,16 +79,7 @@ export default function Nav() {
             </>
           )}
 
-          {isAuthenticated && (
-            <>
-              <Button color="inherit" onClick={logout}>
-                Log Out
-              </Button>
-              <IconButton color="inherit">
-                <Avatar src={user.picture} />
-              </IconButton>
-            </>
-          )}
+          {isAuthenticated && <User />}
         </Box>
       </Toolbar>
     );
@@ -160,17 +123,7 @@ export default function Nav() {
   const getDrawerChoices = () => {
     return (
       <List sx={{ minWidth: "60vw", m: 2 }}>
-        {isAuthenticated && (
-          <>
-            <IconButton color="inherit">
-              <Avatar src={user.picture} />
-            </IconButton>
-            <Button color="inherit" onClick={logout}>
-              Log Out
-            </Button>
-          </>
-        )}
-
+        {isAuthenticated && <User />}
         {[].map((text, index) => (
           <ListItem onClick={() => navigate(text)} key={text}>
             <ListItemText primary={text} />

@@ -8,13 +8,9 @@ const authUser = async () => {
 };
 
 const signUp = async (user) => {
-  const result = await AxiosInstance().post(
-    "/auth/signup",
-    {},
-    {
-      withCredentials: true,
-    }
-  );
+  const result = await AxiosInstance().post("/auth/signup", user, {
+    withCredentials: true,
+  });
   return result.data;
 };
 

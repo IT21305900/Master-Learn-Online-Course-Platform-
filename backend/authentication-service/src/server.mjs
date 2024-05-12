@@ -5,7 +5,7 @@ import errorHandler from "./middleware/errorhandler.js";
 import authentication from "./route/auth.router.js";
 import cors from "cors";
 import morgan from "morgan";
-import("@kinde-oss/kinde-node-express");
+import { connectDB } from "./config/db.config.js";
 
 //express
 const app = express();
@@ -42,7 +42,9 @@ app.use(errorHandler);
 const startServer = async () => {
   try {
     app.listen(PORT, () => {
+      connectDB();
       console.log(`Authentication Service Started in s ${PORT}`);
+     
     });
   } catch (error) {
     console.log(error);

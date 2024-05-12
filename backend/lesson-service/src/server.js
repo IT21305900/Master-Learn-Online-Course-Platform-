@@ -7,7 +7,8 @@ import lesson_router from "./router/lesson.router.js";
 // import course_router from "./router/course.router.js";
 import errorHandler from "./middleware/errorhandler.js";
 import { connectDB } from "./config/db.config.js";
- 
+import authenticate from "./middleware/authenticate.mjs";
+
 const app = express();
 
 //middlewares
@@ -18,15 +19,13 @@ app.use(
   })
 );
 
-
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
 
-
 app.use(morgan("dev"));
 
-app.use("/lesson", lesson_router);
+app.use("/lesson", authenticate, lesson_router);
 
 app.use(errorHandler);
 

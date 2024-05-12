@@ -3,3 +3,4 @@ export { default as InstructorDashboard } from "./dashboards/Instructor";
 export { default as Course } from "./Course";
 export { default as Courses } from "./Courses";
 export { default as Lesson } from "./Lesson";
+export { default as Payment } from "./Payment";
