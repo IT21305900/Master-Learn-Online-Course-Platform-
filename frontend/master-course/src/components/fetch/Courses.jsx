@@ -5,7 +5,7 @@ import CourseCard from "../cards/CourseCard";
 import Loader from "../common/Loader";
 import { fetchCourse, fetchCourses } from "../../api/course.api.mjs";
 
-const Courses = () => {
+const Courses = ({ type }) => {
   const { data, isLoading } = useQuery({
     queryFn: fetchCourses,
     queryKey: ["courses"],
@@ -34,7 +34,7 @@ const Courses = () => {
       }}
     >
       {data?.map((course) => (
-        <CourseCard course={course} />
+        <CourseCard type={type} course={course} />
       ))}
     </Box>
   );

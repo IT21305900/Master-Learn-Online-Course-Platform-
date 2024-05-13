@@ -2,9 +2,15 @@ import React, { useState } from "react";
 import { Box } from "@mui/material";
 import CourseForm from "../forms/CourseForm";
 import { createCourse } from "../../api/course.api.mjs";
-import { useMutation } from "@tanstack/react-query";
+import {
+  QueryClient,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 
 const CreateCourse = () => {
+  const queryClient = new QueryClient();
+
   //form
   const [form, setForm] = useState({
     title: "",
@@ -16,7 +22,9 @@ const CreateCourse = () => {
   //mutatioion
   const mutation = useMutation({
     mutationFn: createCourse,
-    onSuccess: () => {},
+    onSuccess: () => {
+      queryClient.invalidateQueries(["courses"]);
+    },
     onError: () => {},
   });
 
@@ -28,7 +36,7 @@ const CreateCourse = () => {
 
   return (
     <Box>
-      <CourseForm handleSend={handleSend} setForm={setForm} />
+      <CourseForm handleSend={handleSend} form={form} setForm={setForm} />
     </Box>
   );
 };

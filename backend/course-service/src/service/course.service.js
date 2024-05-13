@@ -1,4 +1,5 @@
 import Course from "../model/course.model.js";
+import amqp from 'amqplib/callback_api.js';
 
 class CourseService {
   constructor() {}
@@ -36,16 +37,20 @@ class CourseService {
   }
 
   //create a new couse
-  async createCourse(title, description, price) {
+  async createCourse(title, description, instructor, price) {
     try {
       const course = await Course.create({
         title,
         description,
+        instructor,
         price,
       });
 
+      await this.pushMessage("email", JSON.stringify(course));
+
       return course;
     } catch (error) {
+      console.log(error);
       throw error;
     }
   }
@@ -69,6 +74,37 @@ class CourseService {
       const course = await Course.findOneAndDelete({ key: cid });
       return course;
     } catch (error) {
+      throw error;
+    }
+  }
+
+  //push message
+  async pushMessage(queue, msg) {
+    // Connect to your RabbitMQ server
+    try {
+      amqp.connect(process.env.MSG_QUEUE_URL, function (error0, connection) {
+        if (error0) {
+          throw error0;
+        }
+        // Create a channel
+        connection.createChannel(function (error1, channel) {
+          if (error1) {
+            throw error1;
+          }
+
+          // Assert the queue into existence. This is idempotent.
+          channel.assertQueue(queue, {
+            durable: false,
+          });
+
+          // Send a message to the queue
+          channel.sendToQueue(queue, Buffer.from(msg));
+
+          console.log(" [x] Sent %s", msg);
+        });
+      });
+    } catch (error) {
+      console.log(error);
       throw error;
     }
   }

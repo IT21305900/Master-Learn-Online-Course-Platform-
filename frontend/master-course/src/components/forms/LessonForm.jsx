@@ -10,21 +10,15 @@ import {
 } from "@mui/material";
 import JoditEditor from "jodit-react";
 
-const LessonForm = ({ handleSend, setForm }) => {
+const LessonForm = ({ handleSend, setForm, form }) => {
   //reference
   const editor = useRef(null);
-
-  //state management
-  const [content, setContent] = useState({
-    title: "",
-    content: "",
-  });
 
   //handle the changes
   const handleChange = (e) => {
     const { name, value } = e;
 
-    setContent((prev) => ({
+    setForm((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -33,12 +27,6 @@ const LessonForm = ({ handleSend, setForm }) => {
   //save the changes
   const handleSave = (e) => {
     e.preventDefault();
-
-    //save the change
-    setForm((prev) => ({
-      ...prev,
-      ...content,
-    }));
 
     handleSend();
   };
@@ -71,7 +59,7 @@ const LessonForm = ({ handleSend, setForm }) => {
         {/* <TextField id="outlined-basic" label="Description" variant="outlined" /> */}
         <JoditEditor
           ref={editor}
-          value={content.description}
+          value={form.content}
           tabIndex={1} // tabIndex of textarea
           onBlur={(newContent) =>
             handleChange({ name: "content", value: newContent })

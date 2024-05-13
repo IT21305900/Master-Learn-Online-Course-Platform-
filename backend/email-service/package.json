@@ -1,7 +1,7 @@
 {
-  "name": "course-service",
+  "name": "email-service",
   "version": "1.0.0",
-  "description": "This is the course delivery service for master learn lms application.",
+  "description": "",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -9,21 +9,15 @@
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Isuru Akalanka",
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "@azure/communication-email": "^1.0.0",
     "@azure/identity": "^4.2.0",
     "amqplib": "^0.10.4",
-    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.3.4",
-    "morgan": "^1.10.0",
-    "nodemon": "^3.1.0",
-    "uuid": "^9.0.1",
-    "winston": "^3.13.0"
+    "nodemon": "^3.1.0"
   }
 }

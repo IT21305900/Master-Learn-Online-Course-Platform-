@@ -8,9 +8,11 @@ const signIn = async (req, res, next) => {
 
     let existUser = await authService.getUser(user.id);
 
+    console.log(user);
+
     if (!existUser) {
       console.log("called");
-      existUser = await authService.createUser(user.id, user.email);
+      existUser = await authService.createUser(user);
     }
 
     // Generate token

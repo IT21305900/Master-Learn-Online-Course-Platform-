@@ -33,12 +33,12 @@ const updateCourse = async (course) => {
   return result.data;
 };
 
-const deletCourse = async (course) => {
-  const result = await AxiosInstance().delete(`/course/${course?.id}`, course, {
+const deleteCourse = async (course) => {
+  const result = await AxiosInstance().delete(`/course/${course}`, course, {
     withCredentials: true,
   });
 
   return result.data;
 };
 
-export { fetchCourse, fetchCourses, createCourse, updateCourse, deletCourse };
+export { fetchCourse, fetchCourses, createCourse, updateCourse, deleteCourse };

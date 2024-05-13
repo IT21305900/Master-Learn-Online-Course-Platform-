@@ -9,10 +9,7 @@ const UserSchema = new Schema({
     type: String,
     unique: true,
   },
-  firstName: {
-    type: String,
-  },
-  lastName: {
+  name: {
     type: String,
   },
   email: {

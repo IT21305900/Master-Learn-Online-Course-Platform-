@@ -62,16 +62,17 @@ class AuthService {
   }
 
   //create new user in database
-  async createUser(uid, email) {
+  async createUser(user) {
     try {
       //   const hashedPassword = await this.generateHashedPassword(password);
 
-      const user = await User.create({
-        id: uid,
-        email,
+      const newuser = await User.create({
+        id: user.id,
+        name: `${user.given_name} ${user.family_name}`,
+        email: user.email,
       });
 
-      return user;
+      return newuser;
     } catch (error) {
       throw error;
     }

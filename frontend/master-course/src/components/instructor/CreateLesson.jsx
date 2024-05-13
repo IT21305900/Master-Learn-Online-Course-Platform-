@@ -1,20 +1,24 @@
 import React, { useState } from "react";
 import { Box } from "@mui/material";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import LessonForm from "../forms/LessonForm.jsx";
 import { createLesson } from "../../api/lesson.api.mjs";
 
-const CreateLesson = () => {
+const CreateLesson = ({ course }) => {
   const [form, setForm] = useState({
-    cid: "357c546c-d674-41b9-a5cd-a2bc2c9f5ac5",
+    cid: course,
     title: "",
     content: "",
   });
 
+  const queryClient = useQueryClient();
+
   //mutation
   const mutation = useMutation({
     mutationFn: createLesson,
-    onSuccess: () => {},
+    onSuccess: () => {
+      queryClient.invalidateQueries("course");
+    },
     onError: () => {},
   });
 
@@ -23,9 +27,10 @@ const CreateLesson = () => {
     console.log(form);
     mutation.mutateAsync(form);
   };
+
   return (
     <Box>
-      <LessonForm handleSend={handleSend} setForm={setForm} />
+      <LessonForm handleSend={handleSend} form={form} setForm={setForm} />
     </Box>
   );
 };

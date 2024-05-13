@@ -45,12 +45,15 @@ const fetchCourses = async (req, res, next) => {
 const createCourse = async (req, res, next) => {
   try {
     const { title, description, price } = req.body;
+    const { user } = req.user;
 
     console.log(title, description, price);
+    console.log(user.name);
 
     const course = await courseService.createCourse(
       title,
       description,
+      user.name,
       Number(price)
     );
 
@@ -80,7 +83,7 @@ const deleteCourse = async (req, res, next) => {
 
     const course = await courseService.deleteCourse(cid);
 
-    return course;
+    return res.status(200).json({ message: "Course deleted successfully" });
   } catch (error) {
     next(error);
   }

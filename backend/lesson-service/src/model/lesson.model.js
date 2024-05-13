@@ -1,4 +1,5 @@
 import { Schema, SchemaType, model } from "mongoose";
+import { v4 as uuidv4 } from "uuid";
 
 const LessonSchema = new Schema({
   key: {

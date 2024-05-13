@@ -27,7 +27,7 @@ const Course = () => {
       <Box>
         {action === "create" && <CreateCourse />}
         {action === "lesson" && <ManageLessons />}
-        {action === undefined && <FetchCourse type="dashboard" />}
+        {action === undefined && <FetchCourse type="instructor" />}
       </Box>
     </Box>
   );

@@ -12,10 +12,13 @@ import {
 } from "@mui/material";
 import Typography from "@mui/material/Typography";
 
-const CourseCard = ({ course }) => {
+const CourseCard = ({ course, type }) => {
   const handleNavigate = (action) => {
     if (action === "view") {
       window.location.href = `/course/${course?.key}`;
+    }
+    if (action === "edit") {
+      window.location.href = `/instructor/course/lesson?course=${course.key}`;
     }
   };
 
@@ -79,7 +82,7 @@ const CourseCard = ({ course }) => {
             </Typography>
           </Box>
 
-          <Box sx={{ display: "flex", pt: 1 }}>
+          <Box sx={{ display: "flex", pt: 1, justifyContent: "space-between" }}>
             <IconButton
               color="primary"
               variant="outlined"
@@ -91,13 +94,24 @@ const CourseCard = ({ course }) => {
             {/* <Button variant="outlined" onClick={() => handleNavigate("view")}>
               Share
             </Button> */}
-            <Button
-              sx={{ ml: "auto", px: 8 }}
-              variant="contained"
-              onClick={() => handleNavigate("view")}
-            >
-              View
-            </Button>
+            <Box>
+              {type === "instructor" && (
+                <Button
+                  sx={{ mr: 1, px: 8 }}
+                  variant="outlined"
+                  onClick={() => handleNavigate("edit")}
+                >
+                  Edit
+                </Button>
+              )}
+              <Button
+                sx={{ ml: "auto", px: 8 }}
+                variant="contained"
+                onClick={() => handleNavigate("view")}
+              >
+                View
+              </Button>
+            </Box>
           </Box>
         </Stack>
       </CardContent>
