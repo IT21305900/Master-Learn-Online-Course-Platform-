@@ -20,7 +20,7 @@ const Header = () => {
       }}
     >
       <Typography variant="h6" component="div" sx={{ fontWeight: 'bold' }}>
-        LEGAL EASE
+        Master Learn
       </Typography>
       <Stack direction="row" spacing={4}>
         <Badge badgeContent={4} color="primary">
