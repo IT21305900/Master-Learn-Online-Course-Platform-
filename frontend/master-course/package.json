@@ -4,12 +4,14 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
+    "start": "serve -s dist",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
+    "serve": "^13.0.2",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@kinde-oss/kinde-auth-react": "^3.0.28",

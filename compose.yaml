@@ -1,0 +1,135 @@
+# specify the version of docker-compose
+version: "3.8"
+
+# define the services/containers to be run
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - 8080:8080
+    volumes:
+      - ./backend/proxy-server/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - web
+      - auth
+      - course
+      - lesson
+      - email
+
+  # define the frontend service
+  # we can use any name for the service. A standard naming convention is to use "web" for the frontend
+  web:
+    # we use depends_on to specify that service depends on another service
+    # in this case, we specify that the web depends on the api service
+    # this means that the api service will be started before the web service
+    depends_on:
+      - auth
+    # specify the build context for the web service
+    # this is the directory where the Dockerfile for the web service is located
+    build: ./frontend/master-course
+    # specify the ports to expose for the web service
+    # the first number is the port on the host machine
+    # the second number is the port inside the container
+    ports:
+      - 5173:5173
+    # specify the environment variables for the web service
+    # these environment variables will be available inside the container
+    environment:
+      VITE_API_URL: http://localhost:8000
+
+    # this is for docker compose watch mode
+    # anything mentioned under develop will be watched for changes by docker compose watch and it will perform the action mentioned
+    develop:
+      # we specify the files to watch for changes
+      watch:
+        # it'll watch for changes in package.json and package-lock.json and rebuild the container if there are any changes
+        - path: ./frontend/master-course/package.json
+          action: rebuild
+        - path: ./frontend/master-course/package-lock.json
+          action: rebuild
+        # it'll watch for changes in the frontend directory and sync the changes with the container real time
+        - path: ./frontend/master-course
+          target: /app
+          action: sync
+
+  # define the api service/container
+  auth:
+    build: ./backend/authentication-service
+    ports:
+      - 8001:8001
+    environment:
+      DB_URL: mongodb://db/anime
+      JWT_SECRET: 357c546c-d674-41b9-a5cd-a2bc2c9f5ac5
+      PORT: 8001
+    develop:
+      watch:
+        - path: ./backend/authentication-service/package.json
+          action: rebuild
+        - path: ./backend/authentication-service/package-lock.json
+          action: rebuild
+        - path: ./backend/authentication-service
+          target: /app
+          action: sync
+
+
+
+  # define the api service/container
+  course:
+    build: ./backend/course-service
+    ports:
+      - 8002:8002
+    environment:
+      DB_URL: mongodb://db/anime
+      JWT_SECRET: 357c546c-d674-41b9-a5cd-a2bc2c9f5ac5
+      PORT: 8002
+    develop:
+      watch:
+        - path: ./backend/course-service/package.json
+          action: rebuild
+        - path: ./backend/course-service/package-lock.json
+          action: rebuild
+        - path: ./backend/course-service
+          target: /app
+          action: sync
+
+  # define the api service/container
+  lesson:
+    build: ./backend/lesson-service
+    ports:
+      - 8003:8003
+    environment:
+      DB_URL: mongodb://db/anime
+      JWT_SECRET: 357c546c-d674-41b9-a5cd-a2bc2c9f5ac5
+      PORT: 8003
+    develop:
+      watch:
+        - path: ./backend/lesson-service/package.json
+          action: rebuild
+        - path: ./backend/lesson-service/package-lock.json
+          action: rebuild
+        - path: ./backend/lesson-service
+          target: /app
+          action: sync
+
+  # define the api service/container
+  email:
+    build: ./backend/email-service
+    ports:
+      - 8004:8004
+    environment:
+      DB_URL: mongodb://db/anime
+      JWT_SECRET: 357c546c-d674-41b9-a5cd-a2bc2c9f5ac5
+      PORT: 8004
+    develop:
+      watch:
+        - path: ./backend/email-service/package.json
+          action: rebuild
+        - path: ./backend/email-service/package-lock.json
+          action: rebuild
+        - path: ./backend/email-service
+          target: /app
+          action: sync
+
+# define the volumes to be used by the services
+volumes:
+  anime:
