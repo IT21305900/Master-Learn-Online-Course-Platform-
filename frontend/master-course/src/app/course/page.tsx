@@ -1,6 +1,6 @@
 // app/page.tsx
 import { Suspense } from 'react';
-import { Course } from '@/util/types';
+import { Course } from '@/lib/types';
 // import Header from '@/components/Header';
 // import HeroSection from '@/components/HeroSection';
 

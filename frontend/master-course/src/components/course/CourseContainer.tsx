@@ -5,7 +5,8 @@ import SearchBar from './SearchBar';
 import CourseCategories from './CourseCategories';
 
 import CoursesGrid from './CourseGrid';
-import { Course } from '@/util/types';
+import { Course } from '@/lib/types';
+import ErrorMessage from '../common/ErrorMessage';
 
 interface CoursesContainerProps {
   courses: Course[];
@@ -17,7 +18,7 @@ export default function CoursesContainer({ courses, error }: CoursesContainerPro
   
   // Extract unique categories from courses
   const categories = courses && courses.length > 0
-    ? [...new Set(courses.map(course => course.category || 'Uncategorized'))]
+    ? Array.from(new Set(courses.map(course => course.category || 'Uncategorized')))
     : [];
 
   const handleSearch = (searchTerm: string) => {

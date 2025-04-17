@@ -1,8 +1,4 @@
-FROM node:20-alpine3.18
-
-# RUN addgroup app && adduser -S -G app app
-
-# USER app
+FROM node:20-slim
 
 WORKDIR /app
 
@@ -14,4 +10,23 @@ COPY . .
 
 EXPOSE 3000
 
-CMD npm run dev
+CMD ["npm", "run", "dev"]
+
+
+# FROM node:20-alpine3.18
+
+# # RUN addgroup app && adduser -S -G app app
+
+# # USER app
+
+# WORKDIR /app
+
+# COPY package*.json ./
+
+# RUN npm install
+
+# COPY . .
+
+# EXPOSE 3000
+
+# CMD npm run dev

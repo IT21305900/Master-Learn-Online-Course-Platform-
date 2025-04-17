@@ -5,10 +5,13 @@ const courseService = new CourseService();
 const fetchCourse = async (req, res, next) => {
   try {
     const { cid } = req.params;
+    console.log("Course Request");
+    console.log(cid);
 
     const course = await courseService.getCourse(cid);
 
-    console.log(course);
+    console.log(course)
+
 
     return res.status(200).json(course);
   } catch (error) {

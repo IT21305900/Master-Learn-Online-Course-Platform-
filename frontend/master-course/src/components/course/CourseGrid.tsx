@@ -1,5 +1,5 @@
 
-import { Course } from '@/util/types';
+import { Course } from '@/lib/types';
 import CourseCard from './CourseCard';
 
 interface CoursesGridProps {

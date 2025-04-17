@@ -25,7 +25,7 @@ app.use(cookieParser());
 
 app.use(morgan("dev"));
 
-app.use("/lesson", authenticate, lesson_router);
+app.use("/lesson", lesson_router);
 
 app.use(errorHandler);
 

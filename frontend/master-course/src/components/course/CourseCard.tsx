@@ -1,7 +1,11 @@
 // components/CourseCard.tsx
 
-import { Course } from '@/util/types';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
+import { Course } from '@/lib/types';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { Button } from '../ui/button';
+import Link from 'next/link';
+
 
 
 interface CourseCardProps {
@@ -20,45 +24,50 @@ export default function CourseCard({ course }: CourseCardProps) {
     });
 
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle className="text-lg font-semibold text-gray-900">{course.title}</CardTitle>
+        <Card className="relative group group-hover:border group-hover:border-blue-300">
+            {/* Category label */}
+            <div className="absolute top-6 right-6 bg-yellow-400 border border-yellow-050 text-white rounded-full px-3 py-1 text-xs font-semibold z-10">
+                {course.category ? course.category : 'Uncategorized'}
+            </div>
+
+            <CardHeader className="pt-24">
+                <CardTitle className="text-3xl font-normal text-gray-900">{course.title}</CardTitle>
             </CardHeader>
+
             <CardContent>
-                <CardDescription>{course.description}</CardDescription>
+                {/* Optional Description */}
             </CardContent>
-        </Card>
-        // <div className="overflow-hidden bg-white border border-gray-100 rounded-xl shadow-sm">
-        //     {/* Course Image - placeholder */}
 
-        //     <div className="p-5">
-        //         {/* Course ID and Actions Row */}
-        //         <div className="flex items-center justify-between mb-3">
-        //             <span className="text-xs font-medium text-gray-500">{displayId}</span>
-        //             <button className="text-gray-400 hover:text-gray-600">
-        //                 <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
-        //                     <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
-        //                 </svg>
-        //             </button>
-        //         </div>
+            <CardFooter className='flex flex-col items-start gap-10'>
+                <div className="flex items-center gap-3">
+                    <Avatar className="w-8 h-8 border">
+                        <AvatarFallback className='capitalize'>
+                            {(() => {
+                                const names = course.instructor?.split(" ") || [];
+                                if (names.length >= 2) {
+                                    return `${names[0][0]}${names[1][0]}`;
+                                } else if (names.length === 1 && names[0].length > 0) {
+                                    return names[0][0];
+                                }
+                                return "?";
+                            })()}
+                        </AvatarFallback>
+                    </Avatar>
 
-        //         {/* Course Title */}
-        //         <h2 className="mb-2 text-lg font-semibold text-gray-900">{course.title}</h2>
+                    <CardDescription>
+                        {course.instructor}
+                    </CardDescription>
+                </div>
 
-        //         {/* Course Description - limited to 2 lines */}
-        //         <p className="mb-4 text-sm text-gray-600 line-clamp-2">{course.description}</p>
+                <div>
+                    <Link href={`/course/${course.key}`}>
+                        <Button size="sm" className='rounded-full W'>View the Lessons</Button>
+                    </Link>
+                </div>
+            </CardFooter>
 
-        //         {/* Price and Date Row */}
-        //         <div className="flex items-center justify-between mt-4">
-        //             <span className="text-sm font-semibold text-blue-600">${course.price.toFixed(2)}</span>
-        //             <span className="text-xs text-gray-500">{formattedDate}</span>
-        //         </div>
+        </Card >
 
-        //         {/* View Details Button - Full Width */}
-        //         <button className="w-full px-4 py-2 mt-4 text-sm font-medium text-white transition-colors duration-200 bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-        //             View Details
-        //         </button>
-        //     </div>
-        // </div>
+
     );
 }
