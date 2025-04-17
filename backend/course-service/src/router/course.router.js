@@ -6,6 +6,7 @@ import {
   fetchCourses,
   updateCourse,
 } from "../controller/course.controller.js";
+import instructorHandler from "../middleware/instructorhandler.js";
 
 const router = Router();
 

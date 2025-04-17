@@ -67,7 +67,9 @@ const createCourse = async (req, res, next) => {
 const updateCourse = async (req, res, next) => {
   try {
     const { cid } = req.params;
-    const { course } = req.body;
+    const course = req.body;
+
+    console.log(course);
 
     await courseService.updateCourse(cid, course);
 

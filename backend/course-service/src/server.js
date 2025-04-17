@@ -13,10 +13,11 @@ const app = express();
 //middlewares
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "http://localhost:8080"],
     credentials: true,
   })
 );
+
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -24,7 +25,7 @@ app.use(cookieParser());
 
 app.use(morgan("dev"));
 
-app.use("/course", authenticate, course_router);
+app.use("/course", course_router);
 
 app.use(errorHandler);
 

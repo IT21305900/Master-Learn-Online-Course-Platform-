@@ -61,8 +61,14 @@ class EmailService {
             queue,
             (msg) => {
               let course = JSON.parse(msg.content.toString());
-              console.log(course);
-              this.sendEmail("Test Email", "Test Body", "User A");
+
+              this.sendEmail(
+                "Course Successfully Created",
+                `Course ${
+                  course?.title ? course.title : "Test Course"
+                } has successfully been created`,
+                "User A"
+              );
             },
             {
               noAck: true,

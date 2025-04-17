@@ -13,8 +13,6 @@ class AuthService {
         id: uid,
       });
 
-      console.log(user);
-
       return user;
     } catch (error) {
       throw error;

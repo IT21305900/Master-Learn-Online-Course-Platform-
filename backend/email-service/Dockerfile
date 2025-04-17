@@ -20,4 +20,4 @@ COPY . .
 
 EXPOSE 8004
 
-CMD npm start
+CMD npm run dev

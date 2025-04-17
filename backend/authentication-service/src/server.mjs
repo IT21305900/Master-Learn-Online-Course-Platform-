@@ -5,26 +5,19 @@ import errorHandler from "./middleware/errorhandler.js";
 import authentication from "./route/auth.router.js";
 import cors from "cors";
 import morgan from "morgan";
+import authenticate from "./middleware/authenticate.mjs";
 import { connectDB } from "./config/db.config.js";
 
 //express
 const app = express();
 
-const config = {
-  clientId: "",
-  domain: "",
-  redirectUri: "",
-  logoutUri: "",
-};
-
 //middlewares
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "http://localhost:8080"],
     credentials: true,
   })
 );
-
 app.use(morgan("dev"));
 
 app.use(express.urlencoded({ extended: false }));
@@ -44,7 +37,6 @@ const startServer = async () => {
     app.listen(PORT, () => {
       connectDB();
       console.log(`Authentication Service Started in s ${PORT}`);
-     
     });
   } catch (error) {
     console.log(error);

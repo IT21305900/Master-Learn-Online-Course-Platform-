@@ -20,7 +20,7 @@ const UserSchema = new Schema({
   password: {
     type: String,
   },
-  roles: [],
+  roles: ["instructor"],
 });
 
 const UserModel = model("User", UserSchema);

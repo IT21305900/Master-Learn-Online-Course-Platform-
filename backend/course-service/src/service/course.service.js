@@ -1,5 +1,5 @@
 import Course from "../model/course.model.js";
-import amqp from 'amqplib/callback_api.js';
+import amqp from "amqplib/callback_api.js";
 
 class CourseService {
   constructor() {}
@@ -79,33 +79,38 @@ class CourseService {
   }
 
   //push message
+  //push message
   async pushMessage(queue, msg) {
     // Connect to your RabbitMQ server
     try {
-      amqp.connect(process.env.MSG_QUEUE_URL, function (error0, connection) {
-        if (error0) {
-          throw error0;
-        }
-        // Create a channel
-        connection.createChannel(function (error1, channel) {
-          if (error1) {
-            throw error1;
+      amqp.connect(
+        "amqps://wpcunvef:Ep4fsxSOS1QkSurjVwN7tcyJi9VmNxx4@armadillo.rmq.cloudamqp.com/wpcunvef",
+        function (error0, connection) {
+          if (error0) {
+            console.error("Failed to connect to RabbitMQ server:", error0);
+            return;
           }
+          // Create a channel
+          connection.createChannel(function (error1, channel) {
+            if (error1) {
+              console.error("Failed to create a channel:", error1);
+              return;
+            }
 
-          // Assert the queue into existence. This is idempotent.
-          channel.assertQueue(queue, {
-            durable: false,
+            // Assert the queue into existence. This is idempotent.
+            channel.assertQueue(queue, {
+              durable: false,
+            });
+
+            // Send a message to the queue
+            channel.sendToQueue(queue, Buffer.from(msg));
+
+            console.log(" [x] Sent %s", msg);
           });
-
-          // Send a message to the queue
-          channel.sendToQueue(queue, Buffer.from(msg));
-
-          console.log(" [x] Sent %s", msg);
-        });
-      });
+        }
+      );
     } catch (error) {
-      console.log(error);
-      throw error;
+      console.error("An error occurred:", error);
     }
   }
 }
