@@ -3,15 +3,15 @@ import { Suspense } from 'react';
 import { Course } from '@/lib/types';
 // import Header from '@/components/Header';
 // import HeroSection from '@/components/HeroSection';
-
-
 import CoursesContainer from '@/components/course/CourseContainer';
+
+const PROXYURL = process.env.NEXT_PUBLIC_PROXY_URL!;
 
 
 async function getCourses(): Promise<Course[]> {
   try {
     // When running inside Docker network, we can use service names
-    const response = await fetch('http://nginx/course', {
+    const response = await fetch(`${PROXYURL}/course`, {
       headers: {
         'Content-Type': 'application/json',
       },

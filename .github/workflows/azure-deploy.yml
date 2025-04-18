@@ -1,0 +1,128 @@
+name: Deploy to Azure
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  ACR_NAME: lmsacr
+  RESOURCE_GROUP: lms-microservices
+  APP_SERVICE_PLAN: lms-service-plan
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+    
+    - name: Log in to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    - name: Log in to ACR
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ env.ACR_NAME }}.azurecr.io
+        username: ${{ secrets.AZURE_ACR_USERNAME }}
+        password: ${{ secrets.AZURE_ACR_PASSWORD }}
+    
+    # Build and push each service
+    - name: Build and push auth service
+      uses: docker/build-push-action@v2
+      with:
+        context: ./backend/authentication-service
+        push: true
+        tags: ${{ env.ACR_NAME }}.azurecr.io/auth:${{ github.sha }}, ${{ env.ACR_NAME }}.azurecr.io/auth:latest
+    
+    - name: Build and push course service
+      uses: docker/build-push-action@v2
+      with:
+        context: ./backend/course-service
+        push: true
+        tags: ${{ env.ACR_NAME }}.azurecr.io/course:${{ github.sha }}, ${{ env.ACR_NAME }}.azurecr.io/course:latest
+    
+    - name: Build and push lesson service
+      uses: docker/build-push-action@v2
+      with:
+        context: ./backend/lesson-service
+        push: true
+        tags: ${{ env.ACR_NAME }}.azurecr.io/lesson:${{ github.sha }}, ${{ env.ACR_NAME }}.azurecr.io/lesson:latest
+    
+    - name: Build and push email service
+      uses: docker/build-push-action@v2
+      with:
+        context: ./backend/email-service
+        push: true
+        tags: ${{ env.ACR_NAME }}.azurecr.io/email:${{ github.sha }}, ${{ env.ACR_NAME }}.azurecr.io/email:latest
+    
+    - name: Build and push enrollment service
+      uses: docker/build-push-action@v2
+      with:
+        context: ./backend/enrollement-service
+        push: true
+        tags: ${{ env.ACR_NAME }}.azurecr.io/enroll:${{ github.sha }}, ${{ env.ACR_NAME }}.azurecr.io/enroll:latest
+    
+    - name: Build and push nginx
+      uses: docker/build-push-action@v2
+      with:
+        context: ./backend/proxy-server
+        push: true
+        tags: ${{ env.ACR_NAME }}.azurecr.io/nginx:${{ github.sha }}, ${{ env.ACR_NAME }}.azurecr.io/nginx:latest
+    
+    - name: Build and push frontend
+      uses: docker/build-push-action@v2
+      with:
+        context: ./frontend/master-course
+        push: true
+        tags: ${{ env.ACR_NAME }}.azurecr.io/web:${{ github.sha }}, ${{ env.ACR_NAME }}.azurecr.io/web:latest
+    
+    # Deploy services to App Service
+    - name: Deploy Auth Service
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: lms-auth-service
+        images: ${{ env.ACR_NAME }}.azurecr.io/auth:${{ github.sha }}
+    
+    - name: Deploy Course Service
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: lms-course-service
+        images: ${{ env.ACR_NAME }}.azurecr.io/course:${{ github.sha }}
+    
+    - name: Deploy Lesson Service
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: lms-lesson-service
+        images: ${{ env.ACR_NAME }}.azurecr.io/lesson:${{ github.sha }}
+    
+    - name: Deploy Email Service
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: lms-email-service
+        images: ${{ env.ACR_NAME }}.azurecr.io/email:${{ github.sha }}
+    
+    - name: Deploy Enrollment Service
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: lms-enroll-service
+        images: ${{ env.ACR_NAME }}.azurecr.io/enroll:${{ github.sha }}
+    
+    - name: Deploy Nginx Service
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: lms-nginx
+        images: ${{ env.ACR_NAME }}.azurecr.io/nginx:${{ github.sha }}
+    
+    - name: Deploy Frontend
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: lms-frontend
+        images: ${{ env.ACR_NAME }}.azurecr.io/web:${{ github.sha }}
