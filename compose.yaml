@@ -45,7 +45,7 @@ services:
     ports:
       - 8001:8001
     environment:
-      DB_URL: mongodb://localhost:27017/anime
+      # DB_URL: mongodb://localhost:27017/anime
       JWT_SECRET: 357c546c-d674-41b9-a5cd-a2bc2c9f5ac5
       PORT: 8001
     networks:
@@ -58,7 +58,7 @@ services:
     ports:
       - 8002:8002
     environment:
-      DB_URL: mongodb://localhost:27017/anime
+      # DB_URL: mongodb://localhost:27017/anime
       JWT_SECRET: 357c546c-d674-41b9-a5cd-a2bc2c9f5ac5
       PORT: 8002
     networks:
@@ -71,7 +71,7 @@ services:
     ports:
       - 8003:8003
     environment:
-      DB_URL: mongodb://localhost:27017/anime
+      # DB_URL: mongodb://localhost:27017/anime
       JWT_SECRET: 357c546c-d674-41b9-a5cd-a2bc2c9f5ac5
       PORT: 8003
     networks:
@@ -84,7 +84,7 @@ services:
     ports:
       - 8004:8004
     environment:
-      DB_URL: mongodb://localhost:27017/anime
+      # DB_URL: mongodb://localhost:27017/anime
       JWT_SECRET: 357c546c-d674-41b9-a5cd-a2bc2c9f5ac5
       PORT: 8004
     networks:
@@ -97,7 +97,7 @@ services:
     ports:
       - 8011:8011
     environment:
-      DB_URL: mongodb://localhost:27017/anime
+      # DB_URL: mongodb://localhost:27017/anime
       JWT_SECRET: 357c546c-d674-41b9-a5cd-a2bc2c9f5ac5
       PORT: 8011
     networks:

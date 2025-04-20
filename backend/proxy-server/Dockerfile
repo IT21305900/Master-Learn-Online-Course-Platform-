@@ -1,5 +1,9 @@
 FROM nginx
 
-RUN rm /etc/nginx/nginx.conf 
+# Copy nginx configuration template
+COPY nginx.conf.template /etc/nginx/nginx.conf.template
 
-COPY nginx.conf /etc/nginx/nginx.conf
+# Use environment variables in nginx config
+CMD /bin/sh -c "envsubst '\$AUTH_SERVICE_URL \$COURSE_SERVICE_URL' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
+
+EXPOSE 80
