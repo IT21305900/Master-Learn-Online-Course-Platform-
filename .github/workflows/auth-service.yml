@@ -58,23 +58,19 @@ jobs:
         docker push ${{ secrets.ACR_LOGIN_SERVER }}/auth-service:${{ github.sha }}
         docker push ${{ secrets.ACR_LOGIN_SERVER }}/auth-service:latest
     
-    - name: Deploy to Azure Container Apps
+    - name: Deploy Auth Service
       uses: azure/CLI@v1
       with:
         inlineScript: |
-          # Create a registry credential object
-          REGISTRY_PASSWORD="${{ secrets.ACR_PASSWORD }}"
-          
-          # Update the container app
-          az containerapp update \
+          # Create new container app
+          az containerapp create \
             --name auth-service \
             --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
-            --image ${{ secrets.ACR_LOGIN_SERVER }}/auth-service:${{ github.sha }}
-          
-          # Separately update the registry credentials
-          az containerapp registry set \
-            --name auth-service \
-            --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
-            --server ${{ secrets.ACR_LOGIN_SERVER }} \
-            --username ${{ secrets.ACR_USERNAME }} \
-            --password "$REGISTRY_PASSWORD"
+            --environment master-learn-env \
+            --image ${{ secrets.ACR_LOGIN_SERVER }}/auth-service:${{ github.sha }} \
+            --registry-server ${{ secrets.ACR_LOGIN_SERVER }} \
+            --registry-username ${{ secrets.ACR_USERNAME }} \
+            --registry-password "${{ secrets.ACR_PASSWORD }}" \
+            --target-port 8001 \
+            --ingress external \
+            --env-vars "PORT=8001" "JWT_SECRET=357c546c-d674-41b9-a5cd-a2bc2c9f5ac5" "MONGODB_URI=mongodb+srv://yourusername:yourpassword@cluster.mongodb.net/yourdb"

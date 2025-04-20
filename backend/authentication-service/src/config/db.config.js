@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export async function connectDB() {
-  const uri = process.env.MONGODB_URI;
+  const uri = `mongodb+srv://isuruakalanka071:8xICZKJslfuWrkos@masterlearn.8gdgair.mongodb.net/?retryWrites=true&w=majority&appName=MasterLearn`;
   
   if (!uri) {
     console.error("MONGODB_URI environment variable is not set");
