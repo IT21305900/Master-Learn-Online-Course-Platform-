@@ -62,7 +62,19 @@ jobs:
       uses: azure/CLI@v1
       with:
         inlineScript: |
+          # Create a registry credential object
+          REGISTRY_PASSWORD="${{ secrets.ACR_PASSWORD }}"
+          
+          # Update the container app
           az containerapp update \
             --name course-service \
             --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
             --image ${{ secrets.ACR_LOGIN_SERVER }}/course-service:${{ github.sha }}
+          
+          # Separately update the registry credentials
+          az containerapp registry set \
+            --name course-service \
+            --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
+            --server ${{ secrets.ACR_LOGIN_SERVER }} \
+            --username ${{ secrets.ACR_USERNAME }} \
+            --password "$REGISTRY_PASSWORD"
