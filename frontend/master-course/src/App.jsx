@@ -15,7 +15,6 @@ import Nav from "./components/common/Nav";
 import InstructorProvider from "./ctx/InstructorProvider";
 
 function App() {
-  const [count, setCount] = useState(0);
 
   return (
     <BrowserRouter>
