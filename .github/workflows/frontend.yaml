@@ -31,7 +31,7 @@ jobs:
       - name: Deploy to Azure
         uses: azure/container-apps-deploy-action@v1
         with:
-          app-name: frontend  # Added app-name parameter
+          appName: frontend  # Added app-name parameter
           imageToDeploy: ${{ secrets.ACR_LOGIN_SERVER }}/frontend:latest
           resourceGroup: ${{ secrets.AZURE_RESOURCE_GROUP }}
           registryUrl: ${{ secrets.ACR_LOGIN_SERVER }}  # Fixed parameter name

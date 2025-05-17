@@ -31,7 +31,7 @@ jobs:
       - name: Deploy to Azure
         uses: azure/container-apps-deploy-action@v1
         with:
-          app-name: auth-service  # Added app-name parameter
+          appName: auth-service  # Added app-name parameter
           imageToDeploy: ${{ secrets.ACR_LOGIN_SERVER }}/auth-service:latest
           resourceGroup: ${{ secrets.AZURE_RESOURCE_GROUP }}
           registryUrl: ${{ secrets.ACR_LOGIN_SERVER }}  # Fixed parameter name

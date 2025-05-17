@@ -31,7 +31,7 @@ jobs:
       - name: Deploy to Azure
         uses: azure/container-apps-deploy-action@v1
         with:
-          app-name: course-service  # Make sure app-name is specified
+          appName: course-service  # Make sure app-name is specified
           imageToDeploy: ${{ secrets.ACR_LOGIN_SERVER }}/course-service:latest
           resourceGroup: ${{ secrets.AZURE_RESOURCE_GROUP }}
           registryUrl: ${{ secrets.ACR_LOGIN_SERVER }}  # Fixed parameter name
