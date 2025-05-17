@@ -1,8 +1,8 @@
 name: Course CI/CD
 on:
   push:
-    paths:
-      - 'backend/course-service/**'
+    branches:
+      - main  
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -22,11 +22,18 @@ jobs:
       - name: Push Image
         run: docker push ${{ secrets.ACR_LOGIN_SERVER }}/course-service:latest
 
+      # Add this Azure login step before the deployment step
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Deploy to Azure
         uses: azure/container-apps-deploy-action@v1
         with:
+          app-name: course-service  # Make sure app-name is specified
           imageToDeploy: ${{ secrets.ACR_LOGIN_SERVER }}/course-service:latest
-          registryUrl: ${{ secrets.ACR_LOGIN_SERVER }}
-          registryUsername: ${{ secrets.ACR_USERNAME }}
-          registryPassword: ${{ secrets.ACR_PASSWORD }}
-          resourceGroup: ${{ secrets.AZURE_RESOURCE_GROUP }}
+          resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
+          registry-url: ${{ secrets.ACR_LOGIN_SERVER }}  # Fixed parameter name
+          registry-username: ${{ secrets.ACR_USERNAME }}  # Fixed parameter name
+          registry-password: ${{ secrets.ACR_PASSWORD }}  # Fixed parameter name

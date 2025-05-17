@@ -1,8 +1,8 @@
 name: Auth CI/CD
 on:
   push:
-    paths:
-      - 'backend/authentication-service/**'
+    branches:
+      - main  # Only run when changes are pushed to the main branch
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -22,11 +22,18 @@ jobs:
       - name: Push Image
         run: docker push ${{ secrets.ACR_LOGIN_SERVER }}/auth-service:latest
 
+      # Added Azure Login step
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Deploy to Azure
         uses: azure/container-apps-deploy-action@v1
         with:
-          imageToDeploy: ${{ secrets.ACR_LOGIN_SERVER }}/auth-service:latest  
-          registryUrl: ${{ secrets.ACR_LOGIN_SERVER }}
-          registryUsername: ${{ secrets.ACR_USERNAME }}
-          registryPassword: ${{ secrets.ACR_PASSWORD }}
-          resourceGroup: ${{ secrets.AZURE_RESOURCE_GROUP }}
+          app-name: auth-service  # Added app-name parameter
+          imageToDeploy: ${{ secrets.ACR_LOGIN_SERVER }}/auth-service:latest
+          resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
+          registry-url: ${{ secrets.ACR_LOGIN_SERVER }}  # Fixed parameter name
+          registry-username: ${{ secrets.ACR_USERNAME }}  # Fixed parameter name
+          registry-password: ${{ secrets.ACR_PASSWORD }}  # Fixed parameter name
