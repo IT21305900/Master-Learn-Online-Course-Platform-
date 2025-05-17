@@ -33,7 +33,7 @@ jobs:
         with:
           app-name: auth-service  # Added app-name parameter
           imageToDeploy: ${{ secrets.ACR_LOGIN_SERVER }}/auth-service:latest
-          resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
-          registry-url: ${{ secrets.ACR_LOGIN_SERVER }}  # Fixed parameter name
-          registry-username: ${{ secrets.ACR_USERNAME }}  # Fixed parameter name
-          registry-password: ${{ secrets.ACR_PASSWORD }}  # Fixed parameter name
+          resourceGroup: ${{ secrets.AZURE_RESOURCE_GROUP }}
+          registryUrl: ${{ secrets.ACR_LOGIN_SERVER }}  # Fixed parameter name
+          registryUsername: ${{ secrets.ACR_USERNAME }}  # Fixed parameter name
+          registryPassword: ${{ secrets.ACR_PASSWORD }}  # Fixed parameter name
