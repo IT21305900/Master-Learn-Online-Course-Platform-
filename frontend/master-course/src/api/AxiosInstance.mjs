@@ -5,7 +5,7 @@ import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
 
 const AxiosInstance = () => {
   const instance = axios.create({
-    baseURL: "http://localhost:8080",
+    baseURL: "https://nginx-proxy.azurecontainerapps.io",
     timeout: 3000,
     withCredentials: true,
   });

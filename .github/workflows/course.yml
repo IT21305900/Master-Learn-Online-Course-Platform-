@@ -1,0 +1,32 @@
+name: Course CI/CD
+on:
+  push:
+    paths:
+      - 'backend/course-service/**'
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker Image
+        run: docker build -t course-service ./backend/course-service
+
+      - name: Login to ACR
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Push Image
+        run: docker push ${{ secrets.ACR_LOGIN_SERVER }}/course-service:latest
+
+      - name: Deploy to Azure
+        uses: azure/container-apps-deploy-action@v1
+        with:
+          app-name: course-service
+          resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
+          registry-url: ${{ secrets.ACR_LOGIN_SERVER }}
+          registry-username: ${{ secrets.ACR_USERNAME }}
+          registry-password: ${{ secrets.ACR_PASSWORD }}
