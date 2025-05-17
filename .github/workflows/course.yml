@@ -1,3 +1,4 @@
+# course ci/cd
 name: Course CI/CD
 on:
   push:
