@@ -13,7 +13,7 @@ const app = express();
 //middlewares
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://localhost:8080"],
+    origin: '*',
     credentials: true,
   })
 );
@@ -24,6 +24,12 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use(morgan("dev"));
+
+// Add a health check endpoint for Azure Container Apps probes
+app.get('/health', (req, res) => {
+  res.status(200).send('OK');
+});
+
 
 app.use("/course", course_router);
 

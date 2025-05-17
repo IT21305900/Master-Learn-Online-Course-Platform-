@@ -37,3 +37,5 @@ jobs:
           registryUrl: ${{ secrets.ACR_LOGIN_SERVER }}  # Fixed parameter name
           registryUsername: ${{ secrets.ACR_USERNAME }}  # Fixed parameter name
           registryPassword: ${{ secrets.ACR_PASSWORD }}  # Fixed parameter name
+          targetPort: 8002
+          ingress: external
