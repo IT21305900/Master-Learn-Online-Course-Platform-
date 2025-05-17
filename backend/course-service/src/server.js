@@ -40,6 +40,7 @@ app.use(errorHandler);
 const startServer = async () => {
   try {
     app.listen(PORT, () => {
+      console.log("Course Service Update");
       console.log(`Course Service Started ${PORT}`);
       connectDB();
     });
