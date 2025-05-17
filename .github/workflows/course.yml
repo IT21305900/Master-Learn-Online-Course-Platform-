@@ -1,4 +1,3 @@
-# course ci/cd
 name: Course CI/CD
 on:
   push:
@@ -29,5 +28,4 @@ jobs:
           app-name: course-service
           resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
           registry-url: ${{ secrets.ACR_LOGIN_SERVER }}
-          registry-username: ${{ secrets.ACR_USERNAME }}
-          registry-password: ${{ secrets.ACR_PASSWORD }}
+          registry-username: ${{ secrets.ACR_USER
