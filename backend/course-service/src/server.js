@@ -6,7 +6,7 @@ import morgan from "morgan";
 import course_router from "./router/course.router.js";
 import errorHandler from "./middleware/errorhandler.js";
 import { connectDB } from "./config/db.config.js";
-import authenticate from "./middleware/authenticate.mjs";
+// import authenticate from "./middleware/authenticate.mjs";
 
 const app = express();
 

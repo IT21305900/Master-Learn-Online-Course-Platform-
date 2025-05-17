@@ -5,7 +5,7 @@ import errorHandler from "./middleware/errorhandler.js";
 import authentication from "./route/auth.router.js";
 import cors from "cors";
 import morgan from "morgan";
-import authenticate from "./middleware/authenticate.mjs";
+// import authenticate from "./middleware/authenticate.mjs";
 import { connectDB } from "./config/db.config.js";
 
 //express
