@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build Docker Image
-        run: docker build -t frontend ./frontend/master-course
+        run: docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/frontend:latest ./frontend/master-course
 
       - name: Login to ACR
         uses: azure/docker-login@v1
