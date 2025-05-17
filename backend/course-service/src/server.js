@@ -1,6 +1,6 @@
 import express from "express";
 import cookieParser from "cookie-parser";
-import { PORT } from "./config/config.js";
+// import { PORT } from "./config/config.js";
 import cors from "cors";
 import morgan from "morgan";
 import course_router from "./router/course.router.js";
@@ -9,6 +9,8 @@ import { connectDB } from "./config/db.config.js";
 // import authenticate from "./middleware/authenticate.mjs";
 
 const app = express();
+
+const PORT = 8002
 
 //middlewares
 app.use(

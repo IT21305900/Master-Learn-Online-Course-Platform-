@@ -1,6 +1,5 @@
 import express from "express";
 import cookieParser from "cookie-parser";
-import { PORT } from "./config/config.js";
 import errorHandler from "./middleware/errorhandler.js";
 import authentication from "./route/auth.router.js";
 import cors from "cors";
@@ -8,13 +7,16 @@ import morgan from "morgan";
 // import authenticate from "./middleware/authenticate.mjs";
 import { connectDB } from "./config/db.config.js";
 
+
+const PORT = 8001
+
 //express
 const app = express();
 
 //middlewares
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://localhost:8080"],
+    origin: '*',
     credentials: true,
   })
 );
