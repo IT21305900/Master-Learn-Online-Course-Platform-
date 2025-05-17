@@ -1,0 +1,44 @@
+name: Trigger auto deployment for course-service
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ main ]
+    paths:
+    - '**'
+    - '.github/workflows/course-service-AutoDeployTrigger-1e838eca-e812-41d9-939a-0ed832a6bf9b.yml'
+
+  # Allow manual trigger 
+  workflow_dispatch:
+      
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.COURSESERVICE_AZURE_CREDENTIALS }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          appSourcePath: ${{ github.workspace }}backend/course-service
+          _dockerfilePathKey_: _dockerfilePath_
+          registryUrl: microctseregistry.azurecr.io
+          registryUsername: ${{ secrets.COURSESERVICE_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.COURSESERVICE_REGISTRY_PASSWORD }}
+          containerAppName: course-service
+          resourceGroup: microctse
+          imageToBuild: microctseregistry.azurecr.io/course-service:${{ github.sha }}
+          
+            
+
+     
+
