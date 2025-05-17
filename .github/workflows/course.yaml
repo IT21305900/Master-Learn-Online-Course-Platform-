@@ -25,7 +25,8 @@ jobs:
       - name: Deploy to Azure
         uses: azure/container-apps-deploy-action@v1
         with:
-          app-name: course-service
-          resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
-          registry-url: ${{ secrets.ACR_LOGIN_SERVER }}
-          registry-username: ${{ secrets.ACR_USER
+          imageToDeploy: ${{ secrets.ACR_LOGIN_SERVER }}/course-service:latest
+          registryUrl: ${{ secrets.ACR_LOGIN_SERVER }}
+          registryUsername: ${{ secrets.ACR_USERNAME }}
+          registryPassword: ${{ secrets.ACR_PASSWORD }}
+          resourceGroup: ${{ secrets.AZURE_RESOURCE_GROUP }}
