@@ -14,7 +14,7 @@
   "dependencies": {
     "@azure/communication-email": "^1.0.0",
     "@azure/identity": "^4.2.0",
-    "amqplib": "^0.10.4",
+    "amqplib": "^0.10.8",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
